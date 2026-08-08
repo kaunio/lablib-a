@@ -35,8 +35,7 @@ pipeline {
                         // tag v3.4.0 -> 3.4.0
                         env.REVISION = env.TAG_NAME.replaceFirst(/^v/, '')
                     } else if (env.BRANCH_NAME == 'main') {
-                        env.REVISION = sh(returnStdout: true,
-                                          script: './ci/next-version.sh --snapshot').trim()
+                        env.REVISION = "0.0.0-blarg-SNAPSHOT"
                     } else {
                         def safe = env.BRANCH_NAME.replaceAll(/[^A-Za-z0-9._-]/, '-')
                         env.REVISION = "0.0.0-${safe}-SNAPSHOT"
