@@ -77,7 +77,7 @@ pipeline {
         }
 
         stage('Release') {
-                    when { buildingTag() }
+                    //when { buildingTag() }
                     steps {
                         withMaven(maven: 'maven-3',
                                   jdk: 'java-17',
