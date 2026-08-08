@@ -49,7 +49,7 @@ pipeline {
             steps {
                 withMaven(maven: 'maven-3',
                           jdk: 'java-17',
-                          mavenSettingsConfig: 'nexus-settings',
+                          //mavenSettingsConfig: 'nexus-settings',
                           mavenLocalRepo: '.m2repo',
                           publisherStrategy: 'EXPLICIT',
                           options: [
