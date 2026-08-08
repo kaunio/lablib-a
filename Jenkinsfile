@@ -15,7 +15,7 @@ pipeline {
     }
 
     triggers {
-        snapshotDependencies()
+       // snapshotDependencies()
     }
 
     environment {
