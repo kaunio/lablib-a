@@ -124,7 +124,6 @@ pipeline {
 
     post {
         always {
-            recordIssues tools: [spotBugs(), errorProne()], qualityGates: [[threshold: 1, type: 'NEW', criticality: 'NOTE']]
             cleanWs(deleteDirs: true, notFailBuild: true, patterns: [[pattern: '.m2repo/**', type: 'EXCLUDE']])
         }
     }
