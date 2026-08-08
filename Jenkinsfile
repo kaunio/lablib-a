@@ -28,6 +28,18 @@ pipeline {
 
     stages {
 
+        stage('Debug JDK') {
+            steps {
+                script { echo "tool resolves to: [${tool 'java-17'}]" }
+                sh '''
+                    echo "JAVA_HOME=[$JAVA_HOME]"
+                    echo "PATH=$PATH"
+                    ls -l "$JAVA_HOME/bin/java" || echo "!! no java at that path"
+                    which java || echo "!! java not on PATH"
+                '''
+            }
+        }
+
         stage('Version') {
             steps {
                 script {
