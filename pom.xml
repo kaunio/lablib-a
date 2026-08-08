@@ -14,4 +14,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>reposilite</id>
+            <url>http://reposilite:8080/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>reposilite-snapshots</id>
+            <url>http://reposilite:8080/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>

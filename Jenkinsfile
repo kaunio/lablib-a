@@ -61,7 +61,7 @@ pipeline {
             steps {
                 withMaven(maven: 'maven-3',
                           jdk: 'java-17',
-                          //mavenSettingsConfig: 'nexus-settings',
+                          mavenSettingsConfig: 'MySettings',
                           mavenLocalRepo: '.m2repo',
                           publisherStrategy: 'EXPLICIT',
                           options: [
@@ -75,6 +75,21 @@ pipeline {
                 }
             }
         }
+
+        stage('Release') {
+                    when { buildingTag() }
+                    steps {
+                        withMaven(maven: 'maven-3',
+                                  jdk: 'java-17',
+                                  mavenSettingsConfig: 'MySettings',
+                                  mavenLocalRepo: '.m2repo',
+                                  publisherStrategy: 'EXPLICIT',
+                                  options: [ pipelineGraphPublisher(lifecycleThreshold: 'deploy') ]) {
+
+                            sh "${MVN} -Drevision=${env.REVISION} -DskipTests deploy"
+                        }
+                    }
+                }
     }
 
     post {
