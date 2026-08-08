@@ -56,70 +56,13 @@ pipeline {
                               artifactsPublisher(disabled: false),
                               junitPublisher(healthScaleFactor: 1.0),
                               pipelineGraphPublisher(lifecycleThreshold: 'deploy'),
-                              dependenciesFingerprintPublisher(includeSnapshotVersions: true),
-                              jgivenPublisher(disabled: true),
-                              concordionPublisher(disabled: true)
+                              dependenciesFingerprintPublisher(includeSnapshotVersions: true)
                           ]) {
 
                     sh "${MVN} -Drevision=${env.REVISION} clean verify"
                 }
             }
         }
-/*
-        stage('Quality') {
-            when { anyOf { branch 'main'; changeRequest() } }
-            steps {
-                withSonarQubeEnv('sonar') {
-                    sh "${MVN} -Drevision=${env.REVISION} sonar:sonar"
-                }
-            }
-        }
-
-        stage('Deploy SNAPSHOT') {
-            when {
-                allOf {
-                    branch 'main'
-                    not { buildingTag() }
-                }
-            }
-            steps {
-                withMaven(maven: 'Maven 3.9',
-                          jdk: 'JDK 21',
-                          mavenSettingsConfig: 'nexus-settings',
-                          mavenLocalRepo: '.m2repo',
-                          publisherStrategy: 'EXPLICIT',
-                          options: [ pipelineGraphPublisher(lifecycleThreshold: 'deploy') ]) {
-
-                    sh "${MVN} -Drevision=${env.REVISION} -DskipTests deploy"
-                }
-            }
-        }
-
-        stage('Release') {
-            when { buildingTag() }
-            steps {
-                withMaven(maven: 'Maven 3.9',
-                          jdk: 'JDK 21',
-                          mavenSettingsConfig: 'nexus-settings',
-                          mavenLocalRepo: '.m2repo',
-                          publisherStrategy: 'EXPLICIT',
-                          options: [ pipelineGraphPublisher(lifecycleThreshold: 'deploy') ]) {
-
-                    sh "${MVN} -Drevision=${env.REVISION} -DskipTests deploy"
-                }
-            }
-            post {
-                success {
-                    // nudge Renovate so the BOM picks this up without waiting for the poll
-                    withCredentials([string(credentialsId: 'renovate-token', variable: 'TOK')]) {
-                        sh '''curl -sf -X POST "$RENOVATE_TRIGGER_URL" \
-                                -H "Authorization: Bearer $TOK" \
-                                -d '{"repository":"acme/platform"}' '''
-                    }
-                }
-            }
-        }
-    */
     }
 
     post {
