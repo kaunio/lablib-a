@@ -128,13 +128,5 @@ pipeline {
             recordIssues tools: [spotBugs(), errorProne()], qualityGates: [[threshold: 1, type: 'NEW', criticality: 'NOTE']]
             cleanWs(deleteDirs: true, notFailBuild: true, patterns: [[pattern: '.m2repo/**', type: 'EXCLUDE']])
         }
-        failure {
-            slackSend channel: '#builds', color: 'danger',
-                      message: "${env.JOB_NAME} #${env.BUILD_NUMBER} failed: ${env.BUILD_URL}"
-        }
-        fixed {
-            slackSend channel: '#builds', color: 'good',
-                      message: "${env.JOB_NAME} back to green"
-        }
     }
 }
